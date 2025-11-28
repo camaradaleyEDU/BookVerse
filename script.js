@@ -21,7 +21,7 @@ const PRODUCTS = [
     { id: 11, name: "Scythe - Neal Shusterman",       price: 590, image: "scythe.jpg" },
     { id: 12, name: "You Should See Me in Crown - Leah Johnson",        price: 450, image: "you should.jpg" },
     { id: 13, name: "Red Queen - Victoria Aveyard",     price: 420, image: "red queen.jpg" },
-    { id: 14, name: "The Lightening Theif - Rick Riordan",           price: 550, image: "percy jackson.jpg" },
+    { id: 14, name: "The Lightening Theif - Rick Riordan",           price: 550, image: "pery jackson.jpg" },
     { id: 15, name: "Bride - Ali Hazelwood",     price: 620, image: "bride.jpg" },
     { id: 16, name: "Love on the Brain - Ali Hazelwood",           price: 480, image: "love on brain.jpg" }
 ];
