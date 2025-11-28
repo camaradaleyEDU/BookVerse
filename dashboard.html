@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Statistics - Order History</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="script.js" defer></script>
+    <style>
+        /* CSS required for the JavaScript generated content (status messages) */
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .message.success {
+            background: #1e5631;
+            color: #eafaf1;
+        }
+
+        .message.error {
+            background: #8b1e2d;
+            color: #fdecea;
+        }
+
+        /* ========== STATISTICS PAGE SPECIFIC STYLES (NEW) ========== */
+
+        /* Wrapper for each invoice summary */
+        .invoice-summary {
+            background: #171b33;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(79, 209, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .invoice-summary h4 {
+            font-size: 15px;
+            color: #4fd1ff;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+        }
+        
+        .invoice-summary p {
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .invoice-summary strong {
+            color: #ffb347;
+        }
+
+        .details-table {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .details-table th, .details-table td {
+            font-size: 12px;
+            padding: 5px;
+            border: none;
+            border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
+        }
+
+        /* Style for the <details> summary element */
+        details summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #ff4b5c;
+            font-size: 13px;
+            margin-top: 10px;
+            list-style: none; /* Hide default triangle */
+        }
+
+        details summary::before {
+            content: "▶";
+            margin-right: 5px;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        details[open] summary::before {
+            content: "▼";
+        }
+
+    </style>
+</head>
+<body data-page="statistics">
+
+    <!-- SIDE RIBBON (Requires original CSS) -->
+    <div class="side-ribbon"></div>
+
+    <!-- HEADER / NAVBAR (Requires original CSS) -->
+    <header class="main-header">
+        <div class="logo">
+            <div class="logo-mark">📚</div>
+            <div class="logo-text">Book<span>Store</span></div>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Home</a>
+            <a href="cart.html">Cart</a>
+            <a href="checkout.html">Checkout</a>
+            <a href="statistics.html" class="active">Stats</a>
+            <a href="login.html">Login/Register</a>
+        </nav>
+        <div id="userStatus">
+            <!-- User login status will be rendered here by JS -->
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER (Requires original CSS) -->
+    <div class="container">
+        <h2>📊 User Statistics & Order History</h2>
+        <!-- The JS function will inject all statistics and invoices here -->
+        <div id="statsContainer">
+            <p class="message success">Loading user data...</p>
+        </div>
+    </div>
+
+    <!-- FOOTER (Requires original CSS) -->
+    <footer class="main-footer">
+        © 2023 Bookstore | All Rights Reserved.
+    </footer>
+
+    <script>
+        // All JavaScript functions and logic are embedded here.
+
+        // ------------------ TAX & DISCOUNT RULES ------------------
+        const TAX_RATE = 0.15;       // 15% tax
+        const DISCOUNT_THRESHOLD = 300; // apply discount if subtotal > 300
+        const DISCOUNT_RATE = 0.10;    // 10% discount
+
+        // ------------------ PRODUCTS (16 BOOKS) ------------------
+        const PRODUCTS = [
+            { id: 1,  name: "Maze Runner - James Dashner",           price: 210, image: "maze runner.jpg" },
+            { id: 2,  name: "All Systems Red - Martha Wells",         price: 230, image: "all systems red.jpg" },
+            { id: 3,  name: "The Love Hypothesis - Ali Hazelwood",        price: 350, image: "love hypothesis.jpg" },
+            { id: 4,  name: "Fourth Wing - Rebecca Yarros",  price: 300, image: "fourth wing.jpg" },
+            { id: 5,  name: "Star Wars: Heir to the Empire - Timothy Zahn", price: 215, image: "star wars.jpeg" },
+            { id: 6,  name: "Surviving to Drive - Guenther Steiner",          price: 500, image: "f1 drive.jpg" },
+            { id: 7,  name: "The Sun is also a Star - Nicola Yoon",           price: 480, image: "sun is also.jpeg" },
+            { id: 8,  name: "Lord of the Flies - William Golding",    price: 520, image: "lord of the flies.jpeg" },
+            { id: 9,  name: "Hunger Games - Suzanne Collins",         price: 600, image: "hunger games.jpg" },
+            { id: 10, name: "The Fault in Our Stars - John Green",          price: 640, image: "fault in.jpg" },
+            { id: 11, name: "Scythe - Neal Shusterman",          price: 590, image: "scythe.jpg" },
+            { id: 12, name: "You Should See Me in Crown - Leah Johnson",          price: 450, image: "you should.jpg" },
+            { id: 13, name: "Red Queen - Victoria Aveyard",   price: 420, image: "red queen.jpg" },
+            { id: 14, name: "The Lightening Theif - Rick Riordan",            price: 550, image: "pery jackson.jpg" },
+            { id: 15, name: "Bride - Ali Hazelwood",    price: 620, image: "bride.jpg" },
+            { id: 16, name: "Love on the Brain - Ali Hazelwood",              price: 480, image: "love on brain.jpg" }
+        ];
+
+        // ------------------ GENERAL HELPERS ------------------
+        function formatCurrency(value) {
+            return "$" + value.toFixed(2);
+        }
+
+        function calculateTotals(cart) {
+            let subTotal = 0;
+
+            cart.forEach(item => {
+                const product = PRODUCTS.find(p => p.id === item.productId);
+                if (product) {
+                    subTotal += product.price * item.quantity;
+                }
+            });
+
+            let discount = 0;
+            if (subTotal > DISCOUNT_THRESHOLD) {
+                discount = subTotal * DISCOUNT_RATE;
+            }
+
+            const taxableAmount = subTotal - discount;
+            const tax = taxableAmount * TAX_RATE;
+            const total = taxableAmount + tax;
+
+            return { subTotal, discount, tax, total };
+        }
+        
+        // ------------------ CART HELPERS (Required for other pages) ------------------
+        function getCart() {
+            return JSON.parse(localStorage.getItem("cart")) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function clearCart() {
+            localStorage.removeItem("cart");
+        }
+
+        function addToCart(productId) {
+            const cart = getCart();
+            const item = cart.find(i => i.productId === productId);
+            if (item) {
+                item.quantity += 1;
+            } else {
+                cart.push({ productId, quantity: 1 });
+            }
+            saveCart(cart);
+            console.log("Item added to cart:", productId); 
+        }
+
+        // ------------------ INVOICE/STATISTICS HELPERS (NEW) ------------------
+        function getInvoices() {
+            return JSON.parse(localStorage.getItem("invoices")) || [];
+        }
+
+        function saveInvoice(order) {
+            const invoices = getInvoices();
+            invoices.push(order);
+            localStorage.setItem("invoices", JSON.stringify(invoices));
+        }
+
+        // ------------------ PAGE INITIALIZATION STUBS (To prevent errors if user navigates) ------------------
+        function initHomePage() { console.log("Home page initialized."); }
+        function initCartPage() { console.log("Cart page initialized."); }
+        // Note: initCheckoutPage would need updating to use saveInvoice() for a complete solution across files.
+        function initCheckoutPage() { console.log("Checkout page initialized."); } 
+        function initInvoicePage() { console.log("Invoice page initialized."); }
+        function initLoginPage() { console.log("Login page initialized."); }
+        function initRegisterPage() { console.log("Register page initialized."); }
+
+
+        // ------------------ USER STATISTICS (NEW FUNCTION) ------------------
+        function displayUserStatistics() {
+            const container = document.getElementById("statsContainer"); 
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            
+            if (!container) return;
+
+            if (!currentUser) {
+                container.innerHTML = `<p class="message error">Please <a href="login.html" style="color:#4fd1ff; text-decoration:underline;">log in</a> to view your order history.</p>`;
+                return;
+            }
+
+            const allInvoices = getInvoices();
+            
+            // Note: This filtration relies on the customer name matching the registered user's full name.
+            const userInvoices = allInvoices.filter(
+                invoice => invoice.name.toLowerCase() === currentUser.fullName.toLowerCase()
+            ).reverse(); // Show most recent first
+
+            if (userInvoices.length === 0) {
+                container.innerHTML = `<p class="message success">Welcome, ${currentUser.fullName}. You have no past orders.</p>`;
+                return;
+            }
+
+            // Calculate overall totals
+            const totalOrders = userInvoices.length;
+            const totalSpent = userInvoices.reduce((sum, inv) => sum + inv.totals.total, 0);
+
+            // Display basic user info
+            let statsHTML = `
+                <h2>🛍️ Order History for ${currentUser.fullName}</h2>
+                <hr style="border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
+                <p style="margin-bottom: 5px;">Total orders placed: <strong>${totalOrders}</strong></p>
+                <p style="margin-bottom: 20px;">Total value spent: <strong>${formatCurrency(totalSpent)}</strong></p>
+                
+                <h3>Past Invoices (${totalOrders} Total):</h3>
+            `;
+
+            // Display list of invoices
+            userInvoices.forEach((invoice, index) => {
+                // Determine the visible invoice number (1 is most recent)
+                const invoiceNumber = totalOrders - index;
+
+                statsHTML += `
+                    <div class="invoice-summary">
+                        <h4>Invoice #${invoiceNumber} (${invoice.date})</h4>
+                        <p>Total Items: ${invoice.cart.reduce((sum, item) => sum + item.quantity, 0)}</p>
+                        <p>Final Total: <strong>${formatCurrency(invoice.totals.total)}</strong></p>
+                        <p>Shipped to: ${invoice.address}, ${invoice.city}</p>
+                        
+                        <details>
+                            <summary>View Order Details</summary>
+                            <table class="details-table">
+                                <thead><tr><th>Product</th><th>Qty</th><th>Subtotal</th></tr></thead>
+                                <tbody>
+                                    ${invoice.cart.map(item => {
+                                        const product = PRODUCTS.find(p => p.id === item.productId);
+                                        const lineTotal = product ? product.price * item.quantity : 0;
+                                        return `<tr><td>${product ? product.name : 'Unknown Product'}</td><td>${item.quantity}</td><td>${formatCurrency(lineTotal)}</td></tr>`;
+                                    }).join("")}
+                                </tbody>
+                            </table>
+                        </details>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = statsHTML;
+        }
+
+
+        // ------------------ PAGE ROUTER ------------------
+        document.addEventListener("DOMContentLoaded", () => {
+            const page = document.body.dataset.page;
+
+            if (page === "home")      initHomePage();
+            if (page === "cart")      initCartPage();
+            if (page === "checkout")  initCheckoutPage();
+            if (page === "invoice")   initInvoicePage();
+            if (page === "login")     initLoginPage();
+            if (page === "register")  initRegisterPage();
+            if (page === "statistics") displayUserStatistics();
+        });
+
+
+        // ------------------ USER STATUS (LOGGED IN DISPLAY + LOGOUT) ------------------
+        document.addEventListener("DOMContentLoaded", () => {
+            const statusBox = document.getElementById("userStatus");
+            if (!statusBox) return;
+
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+            if (currentUser) {
+                // Show user + logout button
+                statusBox.innerHTML = `
+                    <span class="welcome-text">Welcome, ${currentUser.username}!</span>
+                    <button id="logoutBtn" class="logout-btn">Logout</button>
+                `;
+
+                const btn = document.getElementById("logoutBtn");
+                btn.addEventListener("click", () => {
+                    localStorage.removeItem("currentUser");
+                    window.location.href = "login.html";
+                });
+            } else {
+                // If not logged in, provide a link to login
+                statusBox.innerHTML = `<a href="login.html" class="main-nav-link" style="color: #4fd1ff; text-decoration: none; padding: 6px 10px; border: 1px solid #4fd1ff; border-radius: 6px; font-size: 13px;">Login</a>`;
+            }
+        });
+
+    </script>
+</body>
+</html>
