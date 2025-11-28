@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookVerse - Cart</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body data-page="cart">
+
+<header class="main-header">
+    <div class="logo">
+        <span class="logo-mark">BV</span>
+        <span class="logo-text">BookVerse</span>
+    </div>
+    <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="cart.html" class="active">Cart</a>
+        <a href="checkout.html">Checkout</a>
+        <a href="about.html">About Us</a>
+
+        <span id="userStatus"></span>
+
+    </nav>
+</header>
+
+<div class="side-ribbon"></div>
+
+<main>
+    <section class="container">
+        <h2>Your Cart</h2>
+
+        <table id="cartTable">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div id="cartTotals" class="totals"></div>
+
+        <button onclick="window.location.href='checkout.html'">Checkout</button>
+        <button class="secondary" onclick="window.location.href='index.html'">Continue Shopping</button>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <p>&copy; 2025 BookVerse. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
+
