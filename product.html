@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookVerse – Books</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body data-page="home">
+
+<header class="main-header">
+    <div class="logo">
+        <span class="logo-circle">BV</span>
+        <span class="logo-text">BookVerse</span>
+    </div>
+
+    <nav class="main-nav">
+        <a href="index.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="product.html" class="active">Books</a>
+        <a href="cart.html">Cart</a>
+        <a href="about.html">About</a>
+        <span id="userStatus"></span>
+    </nav>
+</header>
+
+<div class="side-ribbon"></div>
+
+<main>
+    <section class="container">
+        <h2 class="section-title">Book Catalog</h2>
+        <input type="text" id="searchBox" class="search-box" placeholder="Search books...">
+
+        <div id="productsContainer" class="products-grid"></div>
+    </section>
+</main>
+
+<!-- Slide-out product panel -->
+<div id="productPanel" class="product-panel">
+    <div class="panel-content">
+        <span id="panelClose" class="close-btn">×</span>
+        <img id="panelImage">
+        <h2 id="panelName"></h2>
+        <p id="panelPrice"></p>
+        <p id="panelDesc"></p>
+        <button id="panelAddBtn">Add to Cart</button>
+    </div>
+</div>
+
+<footer class="main-footer">
+    <p>&copy; 2025 BookVerse – Digital Bookstore</p>
+</footer>
+
+</body>
+
+</html>
