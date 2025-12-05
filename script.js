@@ -406,7 +406,7 @@ function initLoginPage() {
         }
 
         const users = JSON.parse(localStorage.getItem("users")) || [];
-        const user = users.find(u => u.username === username && u.password === password);
+        const user = users.find(u => u.trn === username && u.password === password);
 
         if (!user) {
             // Track failed attempts
@@ -457,13 +457,16 @@ function initRegisterPage() {
     form.addEventListener("submit", e => {
         e.preventDefault();
 
-        const fullName       = document.getElementById("fullName").value.trim();
-        const dob            = document.getElementById("dob").value.trim();
-        const email          = document.getElementById("regEmail").value.trim();
-        const trn            = document.getElementById("regTRN").value.trim();   // <--- TRN FIELD
-        const username       = document.getElementById("regUsername").value.trim();
-        const password       = document.getElementById("regPassword").value;
-        const confirmPassword= document.getElementById("regConfirm").value;
+    const fullName = document.getElementById("firstName").value.trim() + " " +
+                    document.getElementById("lastName").value.trim();
+
+    const dob = document.getElementById("dob").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const trn = document.getElementById("trn").value.trim();
+    const username = trn; // or add username field if needed
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
 
         // ---------------------- REQUIRED FIELD CHECK ----------------------
         if (!fullName || !dob || !email || !trn || !username || !password || !confirmPassword) {
@@ -522,7 +525,7 @@ function initRegisterPage() {
         }
 
         // ---------------------- SAVE USER ----------------------
-        const newUser = { fullName, dob, trn, email, username, password };
+        const newUser = { fullName, dob, trn, email, username: trn, password };
         users.push(newUser);
         localStorage.setItem("users", JSON.stringify(users));
 
@@ -545,8 +548,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (currentUser) {
         // Show user + logout button
+         const firstName = currentUser.fullName.split(" ")[0];
         statusBox.innerHTML = `
-            <span class="welcome-text">Welcome, ${currentUser.username}!</span>
+            <span class="welcome-text">Welcome, ${firstName}!</span>
             <button id="logoutBtn" class="logout-btn">Logout</button>
         `;
 
@@ -555,8 +559,8 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem("currentUser");
             window.location.href = "login.html";
         });
+
     } else {
-        // Not logged in → show nothing
         statusBox.innerHTML = "";
     }
 });
