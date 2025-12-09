@@ -40,6 +40,8 @@ function clearCart() {
 }
 
 // Add item to cart
+// Logic/ Interactivity 
+// Control Strcutures 
 function addToCart(productId) {
     const cart = getCart();
     const item = cart.find(i => i.productId === productId);
@@ -56,6 +58,7 @@ function formatCurrency(value) {
     return "$" + value.toFixed(2);
 }
 
+//Caclulates subtotals, discounts, tax, and final total
 function calculateTotals(cart) {
     let subTotal = 0;
 
@@ -79,6 +82,8 @@ function calculateTotals(cart) {
 }
 
 // ------------------ PAGE ROUTER ------------------
+// DOM Manipulation
+// Event Handling
 document.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page;
 
@@ -91,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ------------------ HOME PAGE ------------------
+// Displays products and handles search + product slide panel
 function initHomePage() {
     const container = document.getElementById("productsContainer");
     const searchBox = document.getElementById("searchBox");
@@ -155,6 +161,7 @@ function initHomePage() {
         }
     });
 
+    // Close / Add actions in panel
     if (panel && panelAddBtn && panelClose) {
         panelAddBtn.addEventListener("click", () => {
             const id = parseInt(panelAddBtn.getAttribute("data-id"));
@@ -169,6 +176,7 @@ function initHomePage() {
 }
 
 // ------------------ CART PAGE ------------------
+// Builds cart table + totals dynamically
 function initCartPage() {
     const tbody = document.querySelector("#cartTable tbody");
     const totalsDiv = document.getElementById("cartTotals");
@@ -208,6 +216,7 @@ function initCartPage() {
 }
 
 // ------------------ CHECKOUT PAGE ------------------
+// Validates user input + processes payment
 function initCheckoutPage() {
     const summaryDiv = document.getElementById("checkoutSummary");
     const form = document.getElementById("checkoutForm");
@@ -224,6 +233,7 @@ function initCheckoutPage() {
 
     const totals = calculateTotals(cart);
 
+    // Show summary
     summaryDiv.innerHTML = `
         <h3>Shopping Cart Summary</h3>
         <p>Number of items: ${cart.reduce((sum, item) => sum + item.quantity, 0)}</p>
@@ -238,6 +248,8 @@ function initCheckoutPage() {
     const btnCheckout = document.getElementById("btnCheckout");
     const btnClose    = document.getElementById("btnClose");
 
+
+    // Checkout form validation
     form.addEventListener("submit", e => {
         e.preventDefault();
 
@@ -260,6 +272,7 @@ function initCheckoutPage() {
 
         const change = amountPaid - totals.total;
 
+        // Build order object
         const order = {
             name,
             address,
@@ -271,6 +284,7 @@ function initCheckoutPage() {
             date: new Date().toLocaleString()
         };
 
+        // Save last order
         localStorage.setItem("lastOrder", JSON.stringify(order));
         clearCart();
 
@@ -306,6 +320,7 @@ function initCheckoutPage() {
 }
 
 // ------------------ INVOICE PAGE ------------------
+// Generates invoice from saved order
 function initInvoicePage() {
     const container = document.getElementById("invoiceContainer");
     if (!container) return;
@@ -318,6 +333,8 @@ function initInvoicePage() {
     }
 
     let rowsHtml = "";
+    
+    // Build invoice rows dynamically
     order.cart.forEach(item => {
         const product = PRODUCTS.find(p => p.id === item.productId);
         if (!product) return;
