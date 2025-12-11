@@ -423,7 +423,6 @@ function initLoginPage() {
         }
 
         const users = JSON.parse(localStorage.getItem("users")) || [];
-        const user = users.find(u => u.trn === username && u.password === password);
 
         if (!user) {
             // Track failed attempts
@@ -480,7 +479,7 @@ function initRegisterPage() {
     const dob = document.getElementById("dob").value.trim();
     const email = document.getElementById("email").value.trim();
     const trn = document.getElementById("trn").value.trim();
-    const username = trn; // or add username field if needed
+    const username = trn; 
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
