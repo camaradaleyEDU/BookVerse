@@ -284,7 +284,6 @@ function initCheckoutPage() {
             date: new Date().toLocaleString()
         };
 
-        **saveInvoice(order);**
       
         // Save last order
         localStorage.setItem("lastOrder", JSON.stringify(order));
