@@ -5,7 +5,7 @@ const TAX_RATE = 0.15;          // 15% tax
 const DISCOUNT_THRESHOLD = 300; // apply discount if subtotal > 300
 const DISCOUNT_RATE = 0.10;     // 10% discount
 
-// ------------------ PRODUCTS (16 SNEAKERS) ------------------
+// ------------------ PRODUCTS (16 BOOKS) ------------------
 // Paths are from Codes/script.js → ../Assets/...
 const PRODUCTS = [
     { id: 1,  name: "Maze Runner - James Dashner",          price: 210, image: "../Assets/maze runner.jpg" },
@@ -82,7 +82,7 @@ function calculateTotals(cart) {
 document.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page;
 
-    if (page === "home")     initHomePage();
+    if (page === "product")     initHomePage();
     if (page === "cart")     initCartPage();
     if (page === "checkout") initCheckoutPage();
     if (page === "invoice")  initInvoicePage();
