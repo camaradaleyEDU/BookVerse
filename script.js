@@ -252,6 +252,7 @@ function initCheckoutPage() {
     form.addEventListener("submit", e => {
         e.preventDefault();
 
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         const name = form.customerName.value.trim();
         const address = form.address.value.trim();
         const city = form.city.value.trim();
@@ -281,6 +282,7 @@ function initCheckoutPage() {
             cart,
             totals,
             date: new Date().toLocaleString()
+            customerUsername: currentUser.username
         };
             saveInvoice(order);
         // Save last order
