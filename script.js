@@ -87,7 +87,7 @@ function calculateTotals(cart) {
 document.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page;
 
-    if (page === "product")     initHomePage();
+    if (page === "home")     initHomePage();
     if (page === "cart")     initCartPage();
     if (page === "checkout") initCheckoutPage();
     if (page === "invoice")  initInvoicePage();
