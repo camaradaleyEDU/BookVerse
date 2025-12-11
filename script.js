@@ -293,7 +293,9 @@ function initCheckoutPage() {
             window.location.href = "invoice.html";
         }, 1000);
     });
-
+if (btnCheckout) {
+    btnCheckout.addEventListener("click", () => form.requestSubmit());
+}
 
     if (btnCancel) {
         btnCancel.addEventListener("click", e => {
