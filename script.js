@@ -5,25 +5,25 @@ const TAX_RATE = 0.15;          // 15% tax
 const DISCOUNT_THRESHOLD = 300; // apply discount if subtotal > 300
 const DISCOUNT_RATE = 0.10;     // 10% discount
 
-// ------------------ PRODUCTS (16 BOOKS) ------------------
+// ------------------ PRODUCTS (16 SNEAKERS) ------------------
 // Paths are from Codes/script.js → ../Assets/...
 const PRODUCTS = [
-    { id: 1,  name: "Maze Runner - James Dashner",          price: 210, image: "maze runner.jpg" },
-    { id: 2,  name: "All Systems Red - Martha Wells",               price: 230, image: "all systems red.jpg" },
-    { id: 3,  name: "The Love Hypothesis - Ali Hazelwood",              price: 350, image: "love hypothesis.jpg" },
-    { id: 4,  name: "Fourth Wing - Rebecca Yarros",      price: 300, image: "fourth wing.jpg" },
-    { id: 5,  name: "Star Wars: Heir to the Empire - Timothy Zahn", price: 215, image: "star wars.jpeg" },
-    { id: 6,  name: "Surviving to Drive - Guenther Steiner",           price: 500, image: "f1 drive.jpg" },
-    { id: 7,  name: "The Sun is also a Star - Nicola Yoon",               price: 480, image: "sun is also.jpeg" },
-    { id: 8,  name: "Lord of the Flies - William Golding",       price: 520, image: "lord of the flies.jpeg" },
-    { id: 9,  name: "Hunger Games - Suzanne Collins",         price: 600, image: "hunger games.jpg" },
-    { id: 10, name: "The Fault in Our Stars - John Green",       price: 640, image: "fault in.jpg" },
-    { id: 11, name: "Scythe - Neal Shusterman",       price: 590, image: "scythe.jpg" },
-    { id: 12, name: "You Should See Me in Crown - Leah Johnson",        price: 450, image: "you should.jpg" },
-    { id: 13, name: "Red Queen - Victoria Aveyard",     price: 420, image: "red queen.jpg" },
-    { id: 14, name: "The Lightening Theif - Rick Riordan",           price: 550, image: "pery jackson.jpg" },
-    { id: 15, name: "Bride - Ali Hazelwood",     price: 620, image: "bride.jpg" },
-    { id: 16, name: "Love on the Brain - Ali Hazelwood",           price: 480, image: "love on brain.jpg" }
+    { id: 1,  name: "Maze Runner - James Dashner",          price: 210, image: "../Assets/maze runner.jpg" },
+    { id: 2,  name: "All Systems Red - Martha Wells",               price: 230, image: "../Assets/all systems red.jpg" },
+    { id: 3,  name: "The Love Hypothesis - Ali Hazelwood",              price: 350, image: "../Assets/love hypothesis.jpg" },
+    { id: 4,  name: "Fourth Wing - Rebecca Yarros",      price: 300, image: "../Assets/fourth wing.jpg" },
+    { id: 5,  name: "Star Wars: Heir to the Empire - Timothy Zahn", price: 215, image: "../Assets/star wars.jpeg" },
+    { id: 6,  name: "Surviving to Drive - Guenther Steiner",           price: 500, image: "../Assets/f1 drive.jpg" },
+    { id: 7,  name: "The Sun is also a Star - Nicola Yoon",               price: 480, image: "../Assets/sun is also.jpeg" },
+    { id: 8,  name: "Lord of the Flies - William Golding",       price: 520, image: "../Assets/lord of the flies.jpeg" },
+    { id: 9,  name: "Hunger Games - Suzanne Collins",         price: 600, image: "../Assets/hunger games.jpg" },
+    { id: 10, name: "The Fault in Our Stars - John Green",       price: 640, image: "../Assets/fault in.jpg" },
+    { id: 11, name: "Scythe - Neal Shusterman",       price: 590, image: "../Assets/scythe.jpg" },
+    { id: 12, name: "You Should See Me in Crown - Leah Johnson",        price: 450, image: "../Assets/you should.jpg" },
+    { id: 13, name: "Red Queen - Victoria Aveyard",     price: 420, image: "../Assets/red queen.jpg" },
+    { id: 14, name: "The Lightening Theif - Rick Riordan",           price: 550, image: "../Assets/percy jackson.jpg" },
+    { id: 15, name: "Bride - Ali Hazelwood",     price: 620, image: "../Assets/World's messi J 4's.png" },
+    { id: 16, name: "Love on the Brain - Ali Hazelwood",           price: 480, image: "../Assets/love on brain.jpg" }
 ];
 
 // ------------------ CART HELPERS ------------------
@@ -40,8 +40,6 @@ function clearCart() {
 }
 
 // Add item to cart
-// Logic/ Interactivity 
-// Control Strcutures 
 function addToCart(productId) {
     const cart = getCart();
     const item = cart.find(i => i.productId === productId);
@@ -58,7 +56,6 @@ function formatCurrency(value) {
     return "$" + value.toFixed(2);
 }
 
-//Caclulates subtotals, discounts, tax, and final total
 function calculateTotals(cart) {
     let subTotal = 0;
 
@@ -82,12 +79,10 @@ function calculateTotals(cart) {
 }
 
 // ------------------ PAGE ROUTER ------------------
-// DOM Manipulation
-// Event Handling
 document.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page;
 
-    if (page === "home")  || page === "product")   initHomePage();
+    if (page === "home")     initHomePage();
     if (page === "cart")     initCartPage();
     if (page === "checkout") initCheckoutPage();
     if (page === "invoice")  initInvoicePage();
@@ -96,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ------------------ HOME PAGE ------------------
-// Displays products and handles search + product slide panel
 function initHomePage() {
     const container = document.getElementById("productsContainer");
     const searchBox = document.getElementById("searchBox");
@@ -161,7 +155,6 @@ function initHomePage() {
         }
     });
 
-    // Close / Add actions in panel
     if (panel && panelAddBtn && panelClose) {
         panelAddBtn.addEventListener("click", () => {
             const id = parseInt(panelAddBtn.getAttribute("data-id"));
@@ -176,7 +169,6 @@ function initHomePage() {
 }
 
 // ------------------ CART PAGE ------------------
-// Builds cart table + totals dynamically
 function initCartPage() {
     const tbody = document.querySelector("#cartTable tbody");
     const totalsDiv = document.getElementById("cartTotals");
@@ -216,7 +208,6 @@ function initCartPage() {
 }
 
 // ------------------ CHECKOUT PAGE ------------------
-// Validates user input + processes payment
 function initCheckoutPage() {
     const summaryDiv = document.getElementById("checkoutSummary");
     const form = document.getElementById("checkoutForm");
@@ -233,7 +224,6 @@ function initCheckoutPage() {
 
     const totals = calculateTotals(cart);
 
-    // Show summary
     summaryDiv.innerHTML = `
         <h3>Shopping Cart Summary</h3>
         <p>Number of items: ${cart.reduce((sum, item) => sum + item.quantity, 0)}</p>
@@ -248,8 +238,6 @@ function initCheckoutPage() {
     const btnCheckout = document.getElementById("btnCheckout");
     const btnClose    = document.getElementById("btnClose");
 
-
-    // Checkout form validation
     form.addEventListener("submit", e => {
         e.preventDefault();
 
@@ -272,7 +260,6 @@ function initCheckoutPage() {
 
         const change = amountPaid - totals.total;
 
-        // Build order object
         const order = {
             name,
             address,
@@ -284,7 +271,6 @@ function initCheckoutPage() {
             date: new Date().toLocaleString()
         };
 
-        // Save last order
         localStorage.setItem("lastOrder", JSON.stringify(order));
         clearCart();
 
@@ -320,7 +306,6 @@ function initCheckoutPage() {
 }
 
 // ------------------ INVOICE PAGE ------------------
-// Generates invoice from saved order
 function initInvoicePage() {
     const container = document.getElementById("invoiceContainer");
     if (!container) return;
@@ -333,8 +318,6 @@ function initInvoicePage() {
     }
 
     let rowsHtml = "";
-    
-    // Build invoice rows dynamically
     order.cart.forEach(item => {
         const product = PRODUCTS.find(p => p.id === item.productId);
         if (!product) return;
@@ -423,6 +406,7 @@ function initLoginPage() {
         }
 
         const users = JSON.parse(localStorage.getItem("users")) || [];
+        const user = users.find(u => u.username === username && u.password === password);
 
         if (!user) {
             // Track failed attempts
@@ -473,16 +457,13 @@ function initRegisterPage() {
     form.addEventListener("submit", e => {
         e.preventDefault();
 
-    const fullName = document.getElementById("firstName").value.trim() + " " +
-                    document.getElementById("lastName").value.trim();
-
-    const dob = document.getElementById("dob").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const trn = document.getElementById("trn").value.trim();
-    const username = trn; 
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-
+        const fullName       = document.getElementById("fullName").value.trim();
+        const dob            = document.getElementById("dob").value.trim();
+        const email          = document.getElementById("regEmail").value.trim();
+        const trn            = document.getElementById("regTRN").value.trim();   // <--- TRN FIELD
+        const username       = document.getElementById("regUsername").value.trim();
+        const password       = document.getElementById("regPassword").value;
+        const confirmPassword= document.getElementById("regConfirm").value;
 
         // ---------------------- REQUIRED FIELD CHECK ----------------------
         if (!fullName || !dob || !email || !trn || !username || !password || !confirmPassword) {
@@ -541,7 +522,7 @@ function initRegisterPage() {
         }
 
         // ---------------------- SAVE USER ----------------------
-        const newUser = { fullName, dob, trn, email, username: trn, password };
+        const newUser = { fullName, dob, trn, email, username, password };
         users.push(newUser);
         localStorage.setItem("users", JSON.stringify(users));
 
@@ -564,9 +545,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (currentUser) {
         // Show user + logout button
-         const firstName = currentUser.fullName.split(" ")[0];
         statusBox.innerHTML = `
-            <span class="welcome-text">Welcome, ${firstName}!</span>
+            <span class="welcome-text">Welcome, ${currentUser.username}!</span>
             <button id="logoutBtn" class="logout-btn">Logout</button>
         `;
 
@@ -575,44 +555,10 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem("currentUser");
             window.location.href = "login.html";
         });
-
     } else {
+        // Not logged in → show nothing
         statusBox.innerHTML = "";
     }
 });
 
-        msg.className = "message success";
-        msg.textContent = "Registration successful! Redirecting to login...";
-        form.reset();
 
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1200);
-    });
-}
-
-// ------------------ USER STATUS (LOGGED IN DISPLAY + LOGOUT) ------------------
-document.addEventListener("DOMContentLoaded", () => {
-    const statusBox = document.getElementById("userStatus");
-    if (!statusBox) return;
-
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-    if (currentUser) {
-        // Show user + logout button
-         const firstName = currentUser.fullName.split(" ")[0];
-        statusBox.innerHTML = `
-            <span class="welcome-text">Welcome, ${firstName}!</span>
-            <button id="logoutBtn" class="logout-btn">Logout</button>
-        `;
-
-        const btn = document.getElementById("logoutBtn");
-        btn.addEventListener("click", () => {
-            localStorage.removeItem("currentUser");
-            window.location.href = "login.html";
-        });
-
-    } else {
-        statusBox.innerHTML = "";
-    }
-});
