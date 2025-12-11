@@ -422,8 +422,7 @@ function initLoginPage() {
         }
 
         const users = JSON.parse(localStorage.getItem("users")) || [];
-        
-const user = users.find(u => u.username === username && u.password === password);
+        const user = users.find(u => u.username === username && u.password === password);
         
         if (!user) {
             // Track failed attempts
