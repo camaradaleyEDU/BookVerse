@@ -294,9 +294,7 @@ function initCheckoutPage() {
         }, 1000);
     });
 
-    if (btnCheckout) {
-        btnCheckout.addEventListener("click", () => form.requestSubmit());
-    }
+
     if (btnCancel) {
         btnCancel.addEventListener("click", e => {
             e.preventDefault();
