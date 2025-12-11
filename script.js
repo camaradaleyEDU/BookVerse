@@ -460,7 +460,7 @@ function initLoginPage() {
         msg.className = "message success";
         msg.textContent = "Login successful! Redirecting to home...";
         setTimeout(() => {
-            window.location.href = "index.html";
+            window.location.href = "product.html";
         }, 1000);
     });
 }
