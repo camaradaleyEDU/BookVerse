@@ -6,24 +6,23 @@ const DISCOUNT_THRESHOLD = 300; // apply discount if subtotal > 300
 const DISCOUNT_RATE = 0.10;     // 10% discount
 
 // ------------------ PRODUCTS (16 BOOKS) ------------------
-// Paths are from Codes/script.js → ../Assets/...
 const PRODUCTS = [
-    { id: 1,  name: "Maze Runner - James Dashner",          price: 210, image: "maze runner.jpg" },
-    { id: 2,  name: "All Systems Red - Martha Wells",               price: 230, image: "all systems red.jpg" },
-    { id: 3,  name: "The Love Hypothesis - Ali Hazelwood",              price: 350, image: "love hypothesis.jpg" },
-    { id: 4,  name: "Fourth Wing - Rebecca Yarros",      price: 300, image: "fourth wing.jpg" },
+    { id: 1,  name: "Maze Runner - James Dashner", price: 210, image: "maze runner.jpg" },
+    { id: 2,  name: "All Systems Red - Martha Wells", price: 230, image: "all systems red.jpg" },
+    { id: 3,  name: "The Love Hypothesis - Ali Hazelwood", price: 350, image: "love hypothesis.jpg" },
+    { id: 4,  name: "Fourth Wing - Rebecca Yarros", price: 300, image: "fourth wing.jpg" },
     { id: 5,  name: "Star Wars: Heir to the Empire - Timothy Zahn", price: 215, image: "star wars.jpeg" },
-    { id: 6,  name: "Surviving to Drive - Guenther Steiner",           price: 500, image: "f1 drive.jpg" },
-    { id: 7,  name: "The Sun is also a Star - Nicola Yoon",               price: 480, image: "sun is also.jpeg" },
-    { id: 8,  name: "Lord of the Flies - William Golding",       price: 520, image: "lord of the flies.jpeg" },
-    { id: 9,  name: "Hunger Games - Suzanne Collins",         price: 600, image: "hunger games.jpg" },
-    { id: 10, name: "The Fault in Our Stars - John Green",       price: 640, image: "fault in.jpg" },
-    { id: 11, name: "Scythe - Neal Shusterman",       price: 590, image: "scythe.jpg" },
-    { id: 12, name: "You Should See Me in Crown - Leah Johnson",        price: 450, image: "you should.jpg" },
-    { id: 13, name: "Red Queen - Victoria Aveyard",     price: 420, image: "red queen.jpg" },
-    { id: 14, name: "The Lightening Theif - Rick Riordan",           price: 550, image: "pery jackson.jpg" },
-    { id: 15, name: "Bride - Ali Hazelwood",     price: 620, image: "bride.jpg" },
-    { id: 16, name: "Love on the Brain - Ali Hazelwood",           price: 480, image: "love on brain.jpg" }
+    { id: 6,  name: "Surviving to Drive - Guenther Steiner", price: 500, image: "f1 drive.jpg" },
+    { id: 7,  name: "The Sun is also a Star - Nicola Yoon", price: 480, image: "sun is also.jpeg" },
+    { id: 8,  name: "Lord of the Flies - William Golding", price: 520, image: "lord of the flies.jpeg" },
+    { id: 9,  name: "Hunger Games - Suzanne Collins", price: 600, image: "hunger games.jpg" },
+    { id: 10, name: "The Fault in Our Stars - John Green", price: 640, image: "fault in.jpg" },
+    { id: 11, name: "Scythe - Neal Shusterman", price: 590, image: "scythe.jpg" },
+    { id: 12, name: "You Should See Me in Crown - Leah Johnson", price: 450, image: "you should.jpg" },
+    { id: 13, name: "Red Queen - Victoria Aveyard", price: 420, image: "red queen.jpg" },
+    { id: 14, name: "The Lightening Theif - Rick Riordan", price: 550, image: "pery jackson.jpg" },
+    { id: 15, name: "Bride - Ali Hazelwood", price: 620, image: "bride.jpg" },
+    { id: 16, name: "Love on the Brain - Ali Hazelwood", price: 480, image: "love on brain.jpg" }
 ];
 
 // ------------------ CART HELPERS ------------------
