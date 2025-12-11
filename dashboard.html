@@ -242,8 +242,7 @@
             
             // Note: This filtration relies on the customer name matching the registered user's full name.
             const userInvoices = allInvoices.filter(
-    // Filter by the unique username/TRN saved in the order
-    invoice => invoice.customerUsername === currentUser.username
+    invoice => invoice.name.toLowerCase() === currentUser.fullName.toLowerCase()
 ).reverse(); // Show most recent first
 
             if (userInvoices.length === 0) {
